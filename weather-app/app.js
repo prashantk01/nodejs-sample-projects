@@ -27,7 +27,7 @@ const searchPlace = "Agra India";
 const geocodingUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/{"+searchPlace+"}.json?proximity=ip&types=place%2Cpostcode%2Caddress&access_token=" + process.env.YOUR_MAPBOX_ACCESS_TOKEN;
 request({ url: geocodingUrl, json: true }, (error, response) => {
     if (error) {
-        console.log("Not able to connect to weather stack api")
+        console.log("Not able to connect to mapbox geocoding api")
     }
     else if (response.body.error) {
         console.log("Not able to fetch data !!")
