@@ -1,41 +1,26 @@
-const request = require('request');
 require('dotenv').config()
-
-
-// Weather stack public api
-// Accept long/lat and return weather report for location.
-const query = "27.4536733,78.23933";
-const url = "http://api.weatherstack.com/current?access_key=" + process.env.WEATHERSTACK_ACCESS_KEY + "&query=" + query;
-request({ url: url, json: true }, (error, response) => {
-    if (error) {
-        console.log("Not able to connect to weather stack api")
-    }
-    else if (response.body.error) {
-        console.log("Not able to fetch data !!")
-    }
-    else {
-        const data = response.body;
-        console.log("hi there, current temprature in your city is: \n" + data.current.temperature + " and feels like: " + data.current.feelslike);
-    }
-})
+const mapboxGeoCode= require('./utils/mapbox-geocode');
+const weatherStackForeCast = require('./utils/weather-stack-forecast');
 
 
 
-// print lat/long using mapbox-api 
-// The Geocoding API allows you to search for addresses and places by name or coordinates.
-const searchPlace = "Agra India";
-const geocodingUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/{"+searchPlace+"}.json?proximity=ip&types=place%2Cpostcode%2Caddress&access_token=" + process.env.YOUR_MAPBOX_ACCESS_TOKEN;
-request({ url: geocodingUrl, json: true }, (error, response) => {
-    if (error) {
-        console.log("Not able to connect to mapbox geocoding api")
-    }
-    else if (response.body.error) {
-        console.log("Not able to fetch data !!")
-    }
-    else {
-        const data = response.body;
-        console.log("data is: ", data.features[0]);
-    }
-})
-    
-    
+// Hit Mapbox API with address
+// const address = "Nagla Mitan Jalesar Etah India";
+const address = process.argv[2];
+if (!address) {
+    console.log("Oops !! Missing argument ")
+}
+else {
+    mapboxGeoCode(address, (error, geoData) => {
+        if (error)
+            return console.log(error);
+        weatherStackForeCast(geoData.latitude, geoData.longitude, (error, data) => {
+            if (error)
+                return console.log(error);
+            console.log(geoData.placeName);
+            console.log("It's ", data.weatherDescription, " out there, and current temperature is ", data.temperature, " . There is ", data.precip, " % of rain outside");
+        })
+
+    })
+}
+
