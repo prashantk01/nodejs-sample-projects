@@ -24,6 +24,7 @@ const weatherStackForeCast = (lat, long, callback) => {
                 feelslikeTemperature: data.current.feelslike,
                 weatherDescription: data.current.weather_descriptions[0],
                 precip: data.current.precip,
+                visibility:data.current.visibility,
             })
         }
     })
