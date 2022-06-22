@@ -5,7 +5,7 @@ const weatherStackForeCast = require('./utils/weather-stack-forecast');
 
 
 // Hit Mapbox API with address And Get location co-ordinates and get weather details with lat/long.
-// const address = "Nagla Mitan Jalesar Etah India";
+// const address = "Mathura India";
 const address = process.argv[2];
 if (!address) {
     console.log("Oops !! Missing argument ")
