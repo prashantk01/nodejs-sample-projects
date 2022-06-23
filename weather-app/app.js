@@ -22,6 +22,7 @@ else {
             console.log("Current temperature is ", data.temperature, "C");
             console.log("There is ", data.precip, " % of rain outside");
             console.log("Visibility is ", data.visibility);
+            console.log("Latitude and longitude coordinates for your place are: ", geoData.latitude, geoData.longitude);
         })
 
     })
